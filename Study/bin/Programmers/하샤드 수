@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public boolean solution(int x) {
+        boolean answer = true;
+        
+        int temp = x;
+        int sum = 0;
+        
+        if(x < 10) {
+            return true;
+        }
+
+        for(int i = 3; i > 0; i--) {
+            if(x == 10000) {
+                sum++;
+                continue;
+            }
+            
+            if(temp < Math.pow(10, i)) {
+                continue;
+            }
+            
+            sum += temp / (int)Math.pow(10, i);
+            temp = temp % (int)Math.pow(10, i);
+        }
+        
+        sum += temp;
+        
+        if(x % sum != 0) {
+            answer = false;
+        }
+        
+        // System.out.println(sum);
+        return answer;
+    }
+}
+
+// 제곱 구하는 함수 : Math.pow();
+// 리턴 값이 double 이므로 형변환 후 사용하자
