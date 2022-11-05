@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n) {
+        int answer = 0;
+        String result = "";
+        Stack<Integer> stack = new Stack<Integer>();
+
+        
+        while(true) {
+            if(n < 3) {
+                stack.push(n);
+                break;
+            }
+            
+            stack.push(n % 3);
+            n /= 3;
+        }
+        
+        int k = 0;
+        while(stack.size() > 0) {
+            answer += stack.pop() * (int)Math.pow(3, k++);
+        }
+
+        
+        return answer;
+    }
+}
+
+// N진수 구하는 법
+// N % 3 연산 하고 저장
+// 그 다음 N = N / 3 해주자
