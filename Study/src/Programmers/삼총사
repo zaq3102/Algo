@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Solution {
+    static int answer;
+    static int[] numberArray;
+    static int[] picked;
+    
+    public int solution(int[] number) {
+        answer = 0;
+        
+        numberArray = number;
+        picked = new int[3];
+        
+        comb(0,0);
+        
+        return answer;
+    }
+    
+    public static void comb(int start, int cnt){
+        if(cnt == 3) {
+            if((picked[0] + picked[1] + picked[2]) == 0) {
+                answer++;
+            }
+            return;
+        }
+        
+        for(int i = start; i < numberArray.length; i++) {
+            picked[cnt] = numberArray[i];
+            comb(i + 1, cnt + 1);
+        }
+        
+        
+    }
+}
+
+// 조합
