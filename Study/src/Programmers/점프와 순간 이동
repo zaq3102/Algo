@@ -1,0 +1,26 @@
+import java.util.*;
+
+public class Solution {
+    public int solution(int n) {
+        int ans = 0;
+
+        while(n > 1){
+            if(n % 2 == 1) {
+                // 홀수라면
+                n /= 2;
+                ans++;
+            } else {
+                // 짝수라면
+                n /= 2;
+            }
+        }
+
+        return ans + 1;
+    }
+}
+
+// n을 2로 나눠서 1을 만드는 과정까지의 홀수 개수를 구하자
+// n이 홀수면 -> ans++ 하고 n/2
+// n이 짝수면 -> n/2
+
+// 다른 풀이 : n을 이진수로 변환해서 1의 개수를 세도 같은 결과
