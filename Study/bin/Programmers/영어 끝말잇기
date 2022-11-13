@@ -1,0 +1,48 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, String[] words) {
+        int[] answer = new int[2];
+        int current = 1;
+        int cnt = 1;
+        
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        map.put(words[0], 1);
+        
+        for(int i = 1; i < words.length; i++) {
+            current++;
+            
+            if(current == n + 1) {
+                // 한바퀴 돌았다면
+                current = 1;
+                cnt++;
+            }
+            
+            if(map.containsKey(words[i])) {
+                // 중복 값이라면
+                answer[0] = current;
+                answer[1] = cnt;
+                break;
+            } else {
+                // 중복 X
+                if(words[i].charAt(0) == 
+                   words[i - 1].charAt(words[i - 1].length() - 1)) {
+                    // 끝말잇기 했는지 확인
+                    map.put(words[i], current);
+                } else {
+                    // 규칙 위반이라면
+                    answer[0] = current;
+                    answer[1] = cnt;
+                    break;
+                }
+            }
+        }
+
+        return answer;
+    }
+}
+
+// 중복X 한바퀴돌면1번부터
+
+// 중복체크하는 Map 쓰고
+// 그냥 단순 구현?

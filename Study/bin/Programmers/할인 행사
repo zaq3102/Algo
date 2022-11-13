@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String[] want, int[] number, String[] discount) {
+        int answer = 0;
+        
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        
+        int total = 0;
+        for(int i = 0; i < want.length; i++) {
+            // Map에 구매해야할 품목 넣기
+            // 세일품목이름, 세일품목인덱스  순서로 넣는다
+            map.put(want[i], i);
+        }
+        
+        for(int i = 0; i < number.length; i++) {
+            // 구매할 총 갯수 구하기
+            total += number[i];
+        }
+        
+        int p1 = 0;
+        int p2 = total - 1;
+        
+        int[] saleNum = new int[number.length];
+        
+        // 처음 1번은 while 바깥에서 돌려줘야한다
+        for(int i = 0; i < total; i++) {
+            if(map.containsKey(discount[i])) {
+                // 세일하는 품목이다 = 산다
+                saleNum[map.get(discount[i])]++;
+            }
+        }
+        
+        while(true) {
+            if(check(number, saleNum)) {
+                answer++;
+            }
+            
+            if(map.containsKey(discount[p1])) {
+                // 포인터 1 의 값이 구매 품목이라면 삭제해준다
+                saleNum[map.get(discount[p1])]--;
+            }
+            
+            p1++;
+            p2++;
+            
+            if(p2 == discount.length) {
+                break;
+            }
+            
+            if(map.containsKey(discount[p2])) {
+                // 포인터 2 의 값이 구매할 품목이라면 추가해준다
+                saleNum[map.get(discount[p2])]++;
+            }
+            
+        }
+        
+        return answer;
+    }
+    
+    public static boolean check(int[] number, int[] saleNum) {
+        for(int i = 0; i < number.length; i++) {
+            if(number[i] > saleNum[i]) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
+
+// 무조건 연속이어야 하는 점을 이용
+// 맵을 쓰긴 하는데 슬라이딩 윈도우 방식으로 사용
+// while문 안에서 확인 - 밀고 - 당기고  반복하자

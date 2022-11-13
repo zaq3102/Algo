@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int a, int b, int n) {
+        int answer = 0;
+        int getB = 0;
+        
+        
+        while(true) {
+            if(n < a) {
+                break;
+            }
+            
+            getB = (n / a) * b; // 바꿔서 얻는 콜라 수
+            answer += getB; // 얻은 콜라 수 더하고
+            n -= (n / a) * a; // 빈 병에서 바꾼 수 만큼 빼고
+            n += getB; // 얻은 콜라를 빈 병에 더하자
+            // System.out.println("answer : " + answer + ", n : " + n);
+            
+        }
+        
+        
+        return answer;
+    }
+}
+
+// 1. n / a 를 통해 1차로 받음
+// 2. 이 때 소모된 빈 병은 차감시키고 받은 콜라를 빈 병에 추가
+// 3. 반복
+// 바꿔서 받는 콜라를 잊지 말자
