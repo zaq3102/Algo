@@ -1,0 +1,26 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int k, int m, int[] score) {
+        int answer = 0;
+        
+        int ing = score.length % m; // 사과 포장하고 남는 갯수
+        Arrays.sort(score);
+        // System.out.print("score : ");
+        // for(int i = 0; i < score.length; i++) {
+        //     System.out.print(score[i] + " ");
+        // }
+
+        for(int i = ing; i < score.length; i += m) {
+            answer += score[i] * m;
+        }
+        
+        
+        return answer;
+    }
+}
+
+
+// 담을 사과 수 m / 최대 사과 점수 k
+// 상자 내 가장 낮은 사과의 점수가 가격 결정
+// 단순 정렬 후 상자에 담는다? => 정답
