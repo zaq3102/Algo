@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    static int[] staticNums;
+    static int[] picked;
+    static int answer, total;
+    static boolean[] check;
+    
+    public int solution(int[] nums) {
+        answer = 0;
+        staticNums = nums;
+        picked = new int[3];
+        total = 0;
+        
+        for(int i = 0; i < nums.length; i++) {
+            total += nums[i];
+        }
+        
+        check = new boolean[total + 1];
+
+        comb(0,0);
+
+        return answer;
+    }
+    
+    public static void comb(int cnt, int start){
+        if(cnt == 3) {
+            int sum = 0;
+            for(int k = 0; k < 3; k++) {
+                sum += picked[k];
+            } // 뽑은거 합 구하기
+            
+            boolean flag = true;
+            for(int t = 2; t < sum; t++) {
+                if(sum % t == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            
+            if(flag) {
+                answer++;
+            }
+            
+            return;
+        }
+        
+        for(int i = start; i < staticNums.length; i++) {
+            picked[cnt] = staticNums[i];
+            comb(cnt + 1, i + 1);
+        }
+        
+    }
+}
