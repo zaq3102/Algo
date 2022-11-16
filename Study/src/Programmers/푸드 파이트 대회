@@ -1,0 +1,31 @@
+import java.util.*;
+
+class Solution {
+    public String solution(int[] food) {
+        String answer = "";
+        
+        Stack<Integer> stack = new Stack<Integer>();
+        Deque<Integer> deque = new LinkedList<Integer>();
+        deque.offer(0);
+        
+        for(int i = 1; i < food.length; i++) {
+            for(int j = 1; j <= food[i] / 2; j++) {
+                stack.push(i);
+            }
+        }
+        
+        while(stack.size() > 0) {
+            int temp = stack.pop();
+            
+            deque.addFirst(temp);
+            deque.addLast(temp);
+        }
+        
+        while(deque.size() > 0) {
+            answer += Integer.toString(deque.poll());
+        }
+        
+        
+        return answer;
+    }
+}
