@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String X, String Y) {
+        StringBuffer answer = new StringBuffer();
+        
+        int[] arr_X = new int[10];
+        int[] arr_Y = new int[10];
+        
+        for(int i = 0; i < X.length(); i++) {
+            arr_X[X.charAt(i) - '0']++;
+        }
+        for(int i = 0; i < Y.length(); i++) {
+            arr_Y[Y.charAt(i) - '0']++;
+        }
+        
+        for(int i = 9; i > -1; i--) {
+            if(arr_X[i] != 0 && arr_Y[i] != 0) {
+                int min = arr_X[i] > arr_Y[i] ? arr_Y[i]:arr_X[i];
+                
+                if(i == 0 && answer.length() == 0 && min != 0) {
+                    return "0";
+                }
+                
+                for(int k = 0; k < min; k++) {
+                    answer.append(i);
+                }
+            }
+        }
+        
+        if(answer.length() == 0) {
+            return "-1";
+        }
+        return answer.toString();
+        
+        
+//         String answer = "";
+//         int[] arr_X = new int[10];
+//         int[] arr_Y = new int[10];
+        
+        
+//         for(int i = 0; i < X.length(); i++) {
+//             arr_X[X.charAt(i) - 48]++;
+//         }
+//         for(int i = 0; i < Y.length(); i++) {
+//             arr_Y[Y.charAt(i) - 48]++;
+//         }
+        
+//         for(int i = 9; i > -1; i--) {
+//             if(arr_X[i] != 0 && arr_Y[i] != 0) {
+//                 int min = arr_X[i] > arr_Y[i] ? arr_Y[i]:arr_X[i];
+                
+//                 if(i == 0 && answer.length() == 0 && min != 0) {
+//                     return "0";
+//                 }
+                
+//                 for(int k = 0; k < min; k++) {
+//                     answer += i;
+//                 }
+//             }
+//         }
+        
+//         if(answer.length() == 0) {
+//             return "-1";
+//         }
+//         return answer;
+
+        // 300만의 길이를 돌면 300만개의 숫자가 배열에 카운트된다
+        // => 즉, 최대 600만 개의 숫자를 String에 += 해주는 연산이 발생!
+        // 그러므로 String을 쓰면 시간초과 발생! => StringBuffer를 써야한다!!!!
+        
+        
+    }
+}
