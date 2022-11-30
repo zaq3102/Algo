@@ -1,0 +1,95 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] ingredient) {
+        int answer = 0;
+        
+        Deque<Integer> BTower = new LinkedList<Integer>(); // 버거 만들기 실패하면 짬처리 하는 덱
+        Deque<Integer> BTable = new LinkedList<Integer>(); // 버거 만들 덱
+        
+        int now = 1; // 현재 받아야할 재료
+        
+        for(int i = 0; i < ingredient.length; i++) {
+            if(now == 4) {
+                now = 1;
+            }
+            
+            if(ingredient[i] == now) {
+                // 현재 식재료가 버거 만드는 순서에 부합한다면
+                BTable.offer(ingredient[i]);
+                now++;
+                
+                if(BTable.size() == 4) {
+                    // 햄버거 완성이라면
+                    BTable.clear();
+                    answer++;
+                    // System.out.println(i);
+                    
+                    while(BTower.size() != 0) {
+                        if(BTower.peekLast() == 1) {
+                            // 짬통 맨 위가 빵이라면 버거 테이블에 빵 넣고 처음으로 돌아간다
+                            BTable.offerFirst(BTower.pollLast());
+                            now = BTable.size() + 1;
+                            break;
+                        }
+                        
+                        BTable.offerFirst(BTower.pollLast());
+                        
+                        if(BTower.size() == 0) {
+                            // 빵 나오기 전에 짬통이 비었다? = 버거 완성X
+                            while(BTable.size() != 0) {
+                                // 부엌에 있는 버거 재료를 모두 짬통으로 보내자
+                                BTower.offer(BTable.pop());
+                            }
+                            now = 1;
+                            break;
+                        }
+                        
+                        if(BTower.peekLast() + 1 == BTable.peekFirst()) {
+                            // 짬통의 맨 위와 버거 테이블의 맨 아래가 이어지는 재료라면
+                            BTable.offerFirst(BTower.pollLast());
+                            if(BTable.peekFirst() == 1) {
+                                now = BTable.size() + 1;
+                                break;
+                            }
+                        } else {
+                            // 순서가 아니다
+                            while(BTable.size() != 0) {
+                                // 부엌에 있는 버거 재료를 모두 짬통으로 보내자
+                                BTower.offer(BTable.pop());
+                            }
+                            now = 1;
+                            break;
+                        }
+                    } // end of while
+                    
+                    
+                } // end of if size 4
+                
+            } else {
+                // 순서가 아니다
+                while(BTable.size() != 0) {
+                    // 부엌에 있는 버거 재료를 모두 짬통으로 보내자
+                    BTower.offer(BTable.pop());
+                }
+                
+                if(ingredient[i] == 1) {
+                    BTable.offer(ingredient[i]);
+                    now = 2;
+                } else {
+                    BTower.offer(ingredient[i]);
+                    now = 1;
+                }
+                
+            } // end of else
+            
+            // System.out.println("index : " + i + " Tower : " + BTower.size() + " Table : " + BTable.size() + " now : " + now);
+            
+        } // end of for
+
+        return answer;
+    }
+}
+
+// 버거 만드는 BTable 과 짬통 BTower 를 두고 빡구현한다
+// 인덱스가 매우 헷갈리므로 주의!!!!
