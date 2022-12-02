@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int number, int limit, int power) {
+        int answer = 0;
+        int yaksu = 0;
+        
+        for(int i = 2; i <= number; i++) {
+            yaksu = 2; // 1과 자신은 모든 수의 약수
+            
+            
+            for(int y = 2; y <= Math.sqrt(i); y++) {
+                if(i % y == 0) {
+                    yaksu += 2;
+                    if((i / y) == y) {
+                        yaksu--; // 제곱수는 빼자
+                    }
+                }
+
+            } // end of small for
+            
+            if(yaksu > limit) {
+                answer += power;
+            } else {
+                answer += yaksu;
+            }
+        }
+        return answer + 1; // 1은 약수가 1개이므로 -1
+    }
+}
+
+
+// number[i] 의 약수 개수를 구하고 -> 기사의파워
+// if 기사의파워(=number의 약수) > 협약수치limit  ---> 정해진수치power
+// else 기사의파워
+// 약수를 구할 땐 Math.sqrt(n) 한 다음 +2씩 해준다 -> 약수의 루트값을 기준으로 양 옆에 같은 개수의 약수가 존재한다!!

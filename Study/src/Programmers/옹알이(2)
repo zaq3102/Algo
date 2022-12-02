@@ -1,0 +1,58 @@
+import java.util.*;
+
+class Solution {
+    final static String[] words = {"aya", "ye", "woo", "ma"};
+    static String[] result;
+    static int answer;
+    static HashMap<String, Integer> map;
+    
+    public int solution(String[] babbling) {
+        int answer = 0;
+        map = new HashMap<String, Integer>();
+        
+        for(int i = 1; i < 10; i++) {
+            result = new String[i];
+            permutation(0, i);
+        }
+        
+        for(int i = 0; i < babbling.length; i++) {
+            if(map.containsKey(babbling[i])) {
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+    
+    	// 순열 메서드(cnt는 선택 횟수)
+	private static void permutation(int cnt, int R) {
+		// 2개를 선택했으므로, 결과를 출력하고 재귀를 종료한다.
+		if (cnt == R) {
+            String total = "";
+            for(int i = 0; i < result.length; i++) {
+                total += result[i];
+            }
+            map.put(total, 0);
+			return;
+		}
+		// 대상 집합을 순회하며 숫자를 하나 선택한다.
+		for (int i = 0; i < 4; i++) {
+            if(cnt != 0 && words[i].equals(result[cnt - 1])) {
+                // 연속되는 단어라면
+                continue;
+            }
+			// 숫자를 담는다.
+			result[cnt] = words[i];
+			// 자신을 재귀 호출한다.
+			permutation(cnt + 1, R);
+		}
+	}
+}
+
+// 중복 조합
+// 근데 반복해서 넣으면 안됨 -> 이전에 발음한 단어를 기억하고 있어야 한다!
+// Map에 넣어서 containsKey 로 가능 불가능 판독
+
+// 이렇게 푸는거 아니다!!!!!!!!!!!!!!!!!!!!!!!
+// 단어를 무수히 많이 조합해서 무한대의 단어를 map에 넣을 수 없기 때문
+// replaceAll 을 적극 활용하는 듯 함
