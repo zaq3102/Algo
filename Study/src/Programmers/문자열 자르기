@@ -1,0 +1,52 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String s) {
+        int answer = 0;
+        char x;
+        int x_cnt = 1;
+        int y_cnt = 0;
+        int idx = 0;
+        
+    ex : while(true) {
+            x = s.charAt(idx);
+            
+            if(idx == s.length() - 1) {
+                // 마지막 문자열의 길이가 1이라면
+                answer++;
+                break;
+            }
+            
+            while(true) {
+                if(x_cnt != 0 && x_cnt == y_cnt) {
+                    System.out.println("Separate at " + idx);
+                    answer++;
+                    break;
+                }
+                
+                idx++;
+                
+                if(idx == s.length() - 1) {
+                    // 마지막 인덱스
+                    answer++;
+                    break ex;
+                }
+                
+                if(s.charAt(idx) == x) {
+                    x_cnt++;
+                } else {
+                    y_cnt++;
+                }
+                
+            } // end of small while
+        
+            x_cnt = 1;
+            y_cnt = 0;
+            idx++;
+        }
+        return answer;
+    }
+}
+
+// 진짜 문자열을 잘라서 연산하면 시간 초과 난다
+// 인덱스 값을 잘 계산할 것!
