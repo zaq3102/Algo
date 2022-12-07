@@ -1,0 +1,92 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String[] survey, int[] choices) {
+        String answer = "";
+        char[] alpha = {'R', 'T', 'C', 'F', 'J', 'M', 'A', 'N'};
+        int[] score = new int[8];
+        
+        for(int i = 0; i < survey.length; i++) {
+            if(choices[i] < 4) {
+                switch(survey[i].charAt(0)) {
+                    case 'R':
+                        score[0] += 4 - choices[i];
+                        break;
+                    case 'T':
+                        score[1] += 4 - choices[i];
+                        break;
+                    case 'C':
+                        score[2] += 4 - choices[i];
+                        break;
+                    case 'F':
+                        score[3] += 4 - choices[i];
+                        break;
+                    case 'J':
+                        score[4] += 4 - choices[i];
+                        break;
+                    case 'M':
+                        score[5] += 4 - choices[i];
+                        break;
+                    case 'A':
+                        score[6] += 4 - choices[i];
+                        break;
+                    case 'N':
+                        score[7] += 4 - choices[i];
+                        break;
+                }
+            } else if (choices[i] > 4) {
+                switch(survey[i].charAt(1)) {
+                    case 'R':
+                        score[0] += choices[i] - 4;
+                        break;
+                    case 'T':
+                        score[1] += choices[i] - 4;
+                        break;
+                    case 'C':
+                        score[2] += choices[i] - 4;
+                        break;
+                    case 'F':
+                        score[3] += choices[i] - 4;
+                        break;
+                    case 'J':
+                        score[4] += choices[i] - 4;
+                        break;
+                    case 'M':
+                        score[5] += choices[i] - 4;
+                        break;
+                    case 'A':
+                        score[6] += choices[i] - 4;
+                        break;
+                    case 'N':
+                        score[7] += choices[i] - 4;
+                        break;
+                }
+            }
+        }
+        
+        // for(int k = 0; k < 8; k++) {
+        //     System.out.println(alpha[k] + " = " + score[k]);
+        // }
+        
+        for(int i = 0; i < 8; i++) {
+            if(i % 2 == 1) {
+                continue;
+            }
+            
+            char temp = score[i] >= score[i + 1] ? alpha[i] : alpha[i + 1];
+            answer += temp;
+        }
+        
+        
+        return answer;
+    }
+}
+
+// R T 0 1 
+// C F 2 3 
+// J M 4 5
+// A N 6 7
+// 매우비동의 1 ~ 매우동의 7
+
+// 이정도는 쉽다
+// 근데 Map이나 다른 자료구조를 사용해서도 충분히 가능할 듯
