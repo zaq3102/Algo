@@ -1,0 +1,24 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        StringTokenizer st = new StringTokenizer(s, " ");
+        int t = st.countTokens();
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        
+        
+        for(int i = 0; i < t; i++) {
+            int temp = Integer.parseInt(st.nextToken());
+            max = max > temp ? max : temp;
+            min = min < temp ? min : temp;
+        }
+        
+        answer = Integer.toString(min) + " " + Integer.toString(max);
+        
+        return answer;
+    }
+}
+// parseInt는 부호도 해결해준다
+// 이런게... Lv2...?
