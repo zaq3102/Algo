@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Softeer.지도자동구축&apos; to &apos;Main_지도자동구축_Lv2&apos;&#x0D;&#x0A;- Original project: &apos;Study&apos;&#x0D;&#x0A;- Original element: &apos;Softeer.지도자동구축&apos;&#x0D;&#x0A;- Renamed element: &apos;Softeer.Main_지도자동구축_Lv2&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;지도자동구축&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Softeer{지도자동구축.java[지도자동구축" matchStrategy="1" name="Main_지도자동구축_Lv2" qualified="false" references="true" similarDeclarations="false" stamp="1671108922880" textual="false" version="1.0"/>
+</session>
