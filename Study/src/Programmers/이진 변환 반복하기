@@ -1,0 +1,31 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String s) {
+        int[] answer = new int[2];
+        int originL = 0;
+        int curL = 0;
+        int zeroL = 0;
+        int changeCnt = 0;
+        
+        while(s.length() > 1) {
+            originL = s.length();
+            s = s.replaceAll("0", "");
+            curL = s.length(); // 1의 개수
+            zeroL += originL - curL; // 지워진 0의 개수
+            s = Integer.toBinaryString(curL);
+            
+            changeCnt++;
+        }
+             
+        answer[0] = changeCnt;
+        answer[1] = zeroL;
+        
+        return answer;
+    }
+}
+
+// 10진수Int -> 2진수String : Integer.toBinaryString(int);
+// 2진수String -> 10진수Int : Integer.parseInt("String", 2);
+
+// 이진수 외에 8진수 및 16진수도 가능하다!!
