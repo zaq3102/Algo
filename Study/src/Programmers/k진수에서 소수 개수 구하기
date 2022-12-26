@@ -1,0 +1,42 @@
+class Solution {
+    public int solution(int n, int k) {
+        int answer = 0;
+        
+        String jin = Integer.toString(n, k);
+        String[] arr = jin.split("0");
+        
+        for(int i = 0; i < arr.length; i++) 
+            if(arr[i].equals("") || arr[i].equals("1")) {
+                continue;
+            }
+            if(arr[i].equals("2")) {
+                answer++;
+                continue;
+            }
+            
+            boolean isSosu = true;
+            long temp = Long.parseLong(arr[i]);
+            for(long j = 2; j <= (long)Math.sqrt(temp); j++) {
+                if(temp % j == 0) {
+                    // 소수 X
+                    isSosu = false;
+                    break;
+                }
+            }
+            if(isSosu) {
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+}
+
+// P가 0을 포함하지 않는다 = 0이 기준점 = 0을 기준으로 나눠서 계산해도 ㅇㅋ
+// 결론 : 0을 기준으로 SPLIT 해서 나온 값을 조건에 대입
+// 211020101011
+// 211 2 1 1 11
+
+// 10진수 -> n진수 : Integer.toString(바꿀수, 진법)
+// 소수판별법 : Math.sqrt(n) 까지만 반복문으로 돌려서 % i 했을 때 0인지아닌지만 판별!!!!!
+// 일일이 하는 바보같은 짓보다 훨씬 속도면에서 빠르다
