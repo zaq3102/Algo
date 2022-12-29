@@ -1,0 +1,109 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String m, String[] musicinfos) {
+		StringTokenizer st = null;
+		String result_name = "(None)";
+		int result_time = 0;
+        String removeM = m;
+        String[] sharpArr = {"C#", "D#", "F#", "G#", "A#"};
+        String[] removeS = {"c", "d", "f", "g", "a"};
+        
+        for(int s = 0; s < sharpArr.length; s++) {
+            removeM = removeM.replace(sharpArr[s], removeS[s]);
+        }
+
+		for (int i = 0; i < musicinfos.length; i++) {
+			st = new StringTokenizer(musicinfos[i], ",");
+
+			String s_t = st.nextToken();
+			int s_h = (s_t.charAt(0) - '0') * 10 + (s_t.charAt(1) - '0');
+			int s_m = (s_t.charAt(3) - '0') * 10 + (s_t.charAt(4) - '0');
+
+			String e_t = st.nextToken();
+			int e_h = (e_t.charAt(0) - '0') * 10 + (e_t.charAt(1) - '0');
+			int e_m = (e_t.charAt(3) - '0') * 10 + (e_t.charAt(4) - '0');
+
+			int diff = (e_h - s_h) * 60 + (e_m - s_m);
+
+			String name = st.nextToken();
+			String info = st.nextToken();
+
+			String radio_info = ""; // 시간이 적용된 악보
+
+			int sharp = 0;
+			for (int j = 0; j < info.length(); j++) {
+				if (info.charAt(j) == '#') {
+					sharp++;
+				}
+			}
+
+			if (info.length() - sharp > diff) { // 완곡 전에 끊긴다
+				int cnt = 0;
+				for (int j = 0; j < info.length(); j++) {
+					if (cnt == diff) {
+						break;
+					}
+
+					radio_info += info.charAt(j);
+					if (info.charAt(j) == '#') {
+						cnt--;
+					}
+
+					cnt++;
+				}
+
+			} else if (info.length() - sharp == diff) { // 딱 끝남
+				radio_info = info;
+			} else { // 추가로 더한다
+				int rep = diff / (info.length() - sharp);
+				int les = diff % (info.length() - sharp);
+
+				for (int j = 0; j < rep; j++) {
+					radio_info += info;
+				}
+
+				int cnt = 0;
+				for (int j = 0; j < info.length(); j++) {
+					if (cnt == les) {
+						break;
+					}
+
+					radio_info += info.charAt(j);
+					if (info.charAt(j) == '#') {
+						cnt--;
+					}
+
+					cnt++;
+				}
+
+			}
+            
+            for(int k = 0; k < 5; k++) {
+                radio_info = radio_info.replace(sharpArr[k], removeS[k]);
+            }
+
+			if (radio_info.contains(removeM)) {
+                System.out.println("radio_info : " + radio_info);
+				if (result_name == null) { // 처음 매칭
+					result_name = name;
+					result_time = diff;
+				} else {
+					if (diff > result_time) {
+						result_name = name;
+						result_time = diff;
+					}
+				}
+
+			}
+
+		} // end of for
+
+		String answer = result_name;
+		return answer;
+	}
+}
+
+// 빡구현문제
+// 큐로 풀었으면 좀 더 쉽게 구현 가능했을 문제
+// 메모리 관리에 신경쓰자!!!
