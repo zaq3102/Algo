@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Solution {
+    
+    public int solution(int k, int[] tangerine) {
+        Map<Integer, Integer> tmap = new HashMap<Integer, Integer>();
+        
+        for(int i = 0; i < tangerine.length; i++) {
+            if(tmap.containsKey(tangerine[i])) {
+                tmap.put(tangerine[i], tmap.get(tangerine[i]) + 1);
+            } else {
+                tmap.put(tangerine[i], 1);
+            }
+        }
+        
+        // 정렬시작
+        List<Integer> keySet = new ArrayList<>(tmap.keySet());
+
+        // Value 값으로 오름차순 정렬
+        keySet.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return tmap.get(o2).compareTo(tmap.get(o1));
+            }
+        });
+        
+        int sum = 0;
+        int cnt = 0;
+        for (Integer key : keySet) {
+            // System.out.print("Key : " + key);
+            // System.out.println(", Val : " + tmap.get(key));
+            sum += tmap.get(key);
+            cnt++;
+            
+            if(sum >= k) {
+                break;
+            }
+        }
+        return cnt;
+    }
+}
+
+// 조합 -> 으로 풀면 시간초과
+// Map에 값을 넣어서 정렬시키는 방식
+// Map 정렬 방법 : 
+// 1. 맵을 리스트 형식으로 만들어주고 -> List<Integer> keySet = new ArrayList<>(tmap.keySet());
+// 2. 리스트 기준 Value 값으로 내림차순 정렬
+        // keySet.sort(new Comparator<Integer>() {
+        //     @Override
+        //     public int compare(Integer o1, Integer o2) {
+        //         return tmap.get(o2).compareTo(tmap.get(o1));
+        //     }
+        // });
+// 3. 반복문으로 쭈욱 뽑자
+        // for(Integer key : keySet) {
+        //      System.out.println(tmap.get(key));
+        // }
