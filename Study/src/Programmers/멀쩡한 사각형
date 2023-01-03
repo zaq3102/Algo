@@ -1,0 +1,58 @@
+import java.util.*;
+
+class Solution {
+    public long solution(int w, int h) {
+        long answer = 0;
+        long lw = w;
+        long lh = h;
+        long total = lw * lh;
+        long max = 0;
+        long min = 0;
+        
+        if(lw > lh) {
+            max = lw;
+            min = lh;
+        } else {
+            max = lh;
+            min = lw;
+        }
+        
+        if(lw == 1 || lh == 1) {
+            return 0;
+        }
+        
+        if(lw == lh) {
+            return lw * lh - lw;
+        } // 정사각형 끝
+        
+        
+        long g = gcd(max, min); // g개의 잘린도형이 반복되서 나온다
+        long min_w = w / g;
+        long min_h = h / g;
+        long sum = min_w + min_h;
+        answer = total - ((sum - 1) * g);
+        
+        return answer;
+    } // end of main
+    
+    public static long gcd(long a, long b) {
+        if(a % b == 0) {
+            return b;
+        }
+        long r = a % b;
+        return gcd(b, r);
+    }
+}
+
+// 가로w 세로h
+// 정확히 정수,정수 에 선이 닿는 그 지점을 파악하는 것이 1순위
+// 정사각형은 n,n에 점이 대각선이 지나간다 -> 1부터 w - 1 까지의 합 x 2 가 정답 
+
+// 예시
+// w:h = 2:3
+// 즉 w2칸에 h3칸 지점에서 점이 찍힌다 = 2n,3n 마다 정수에 선이 닿는다
+// => 최대공약수를 사용하는 이유
+
+// 정답 : total - ((sum - 1) * g)
+// 수학적 논리력을 기르자!!!
+// int double long 형에 대해 공부하자
