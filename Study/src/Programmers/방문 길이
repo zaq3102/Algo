@@ -1,0 +1,93 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String dirs) {
+        int answer = 0;
+        int start_x = 5;
+        int start_y = 5;
+        String s = "";
+        String R = "";
+        Map<String, Integer> map = new HashMap<>();
+        
+        for(int i = 0; i < dirs.length(); i++) {
+            s = "";
+            R = "";
+            switch(dirs.charAt(i)) {
+                case 'U' : 
+                    if(start_x + 1 > 10) {
+                        break;
+                    }
+                    s = Integer.toString(start_x) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x + 1) + Integer.toString(start_y);
+                    R = Integer.toString(start_x + 1) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y);
+                    if(!map.containsKey(s) && !map.containsKey(R)) {
+                        // 처음가보는 경로
+                        answer++;
+                        map.put(s, 0);
+                        map.put(R, 0);
+                    }
+                    start_x++;
+                    break;
+                case 'D' : 
+                    if(start_x - 1 < 0) {
+                        break;
+                    }
+                    s = Integer.toString(start_x) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x - 1) + Integer.toString(start_y);
+                    R = Integer.toString(start_x - 1) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y);
+                    if(!map.containsKey(s) && !map.containsKey(R)) {
+                        // 처음가보는 경로
+                        answer++;
+                        map.put(s, 0);
+                        map.put(R, 0);
+                    }
+                    start_x--;
+                    break;
+                case 'L' : 
+                    if(start_y - 1 < 0) {
+                        break;
+                    }
+                    s = Integer.toString(start_x) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y - 1);
+                    R = Integer.toString(start_x) + Integer.toString(start_y - 1) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y);
+                    if(!map.containsKey(s) && !map.containsKey(R)) {
+                        // 처음가보는 경로
+                        answer++;
+                        map.put(s, 0);
+                        map.put(R, 0);
+                    }
+                    start_y--;
+                    break;
+                case 'R' : 
+                    if(start_y + 1 > 10) {
+                        break;
+                    }
+                    s = Integer.toString(start_x) + Integer.toString(start_y) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y + 1);
+                    R = Integer.toString(start_x) + Integer.toString(start_y + 1) + " "
+                        + Integer.toString(start_x) + Integer.toString(start_y);
+                    if(!map.containsKey(s) && !map.containsKey(R)) {
+                        // 처음가보는 경로
+                        answer++;
+                        map.put(s, 0);
+                        map.put(R, 0);
+                    }
+                    start_y++;
+                    break;
+            } // end of switch
+        } // end of for
+        
+        return answer;
+    }
+}
+
+// 같은 길 = 이전의 from과 to가 동일하다
+// map에 "from to" 를 키값으로 넣어버린다?
+// 좌표계 자체를 -5 ~ 5 -> 0 ~ 10 으로 바꾸자
+// 중심 : 5,5
+
+// 0,0 -> 1,0 == 1,0 -> 0,0 
+// 같은 경로여도 LR UD 따라서 좌표값이 다를 수 있다!!!
