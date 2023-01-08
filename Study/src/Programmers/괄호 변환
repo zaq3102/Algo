@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String p) {
+        String answer = doit(p);
+        return answer;
+    } // end of main
+    
+    public static String doit(String w) {
+        if(w.length() == 0) {
+            return "";
+        }
+        String u = "";
+        String v = "";   
+        int open = 0;
+        int close = 0;
+        for(int i = 0; i < w.length(); i++) {
+            if(w.charAt(i) == '(') {
+                open++;
+            } else {
+                close++;
+            }
+            if(open == close && open != 0) {
+                u = w.substring(0,i + 1);
+                v = w.substring(i + 1, w.length());
+                break;
+            }
+        } // end of for
+        
+        if(check(u)) {
+            return u + doit(v);
+        } else {
+            return "(" + doit(v) + ")" + reverse(u);
+        }
+    } // end of doit
+    
+    public static boolean check(String s) {
+        int sum = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(') {
+                sum++;
+            } else {
+                sum--;
+            }
+            if(sum < 0) {
+                return false;
+            }
+        } // end of for
+        return true;
+    } // end of check
+    
+    public static String reverse(String s) {
+        if(s.length() <= 2) {
+            s = "";
+        } else {
+            s = s.substring(1, s.length() - 1);
+        }
+        
+        String temp = "";
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(') {
+                temp += ")";
+            } else {
+                temp += "(";
+            }
+        } // end of for
+        return temp;
+    } // end of reverse
+}
+
+// 문제에 쓰인 순서 그대로 구현하면 되는 단순구현 문제
+// 함수를 여러개 만들어서 구현함 -> 메모리와 시간을 맞바꿨다 정도...?
+// 한방에 클리어함 :D 
+// -> 이게 왜 되지...?
