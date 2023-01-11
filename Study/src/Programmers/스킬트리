@@ -1,0 +1,47 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String skill, String[] skill_trees) {
+        int answer = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        
+        for(int i = 0; i < skill.length(); i++) {
+            map.put(skill.charAt(i), i);
+        }
+        
+        int now = 0; // 배울수 있는 레벨
+        boolean isOK = true;
+        for(int i = 0; i < skill_trees.length; i++) {
+            now = 0;
+            isOK = true;
+            for(int j = 0; j < skill_trees[i].length(); j++) {
+                if(map.containsKey(skill_trees[i].charAt(j))) {
+                    if(skill_trees[i].charAt(j) == skill.charAt(0)) {
+                        // 첫번째 스킬이라면
+                        now++;
+                        continue;
+                    }
+                    if(now < map.get(skill_trees[i].charAt(j))){
+                        // System.out.println("BreakPoint : " + i + j + ", now : " + now);
+                        isOK = false;
+                        break;
+                    }
+                    now++;
+                } else {
+                    // 스킬트리에 없는 스킬이라면?
+                    continue;
+                }
+            } // end of innerFor
+            
+            if(isOK) {
+                // System.out.println("OKnow : " + i);
+                answer++;
+            }
+        } // end of outFor
+        
+        return answer;
+    }
+}
+
+// 단순 구현 문제
+// 논리적 사고력을 기르자!!
