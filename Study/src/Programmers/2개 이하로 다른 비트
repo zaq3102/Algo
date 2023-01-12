@@ -1,0 +1,55 @@
+import java.util.*;
+
+class Solution {
+    public long[] solution(long[] numbers) {
+        long[] answer = new long[numbers.length];
+        
+        for (int i = 0; i < numbers.length; i++) {
+            //제시된 숫자를 2진수로 바꿀때 처음으로 0이 나오는 자리수를 찾음
+            //(모든 자리수를 탐색할 필요 없음)
+            //ex 110 = 0 과 똑같고 1001 = 1과 똑같은 결과가 나오기 때문
+            long cnt = 0;
+            long num = numbers[i], bit = 1;
+            while (bit == 1) {
+                if (num >= 2) {
+                    bit = (num % 2);
+                    num = num / 2;
+                } else {
+                    //2보다 작은 경우는 0또는 1이 남았을 경우임
+                    //1인 경우 다음 num1은 0으로 해주자
+                    bit = num;
+                    if (num == 1)
+                        num = 0;
+                }
+
+                if(bit == 0)
+                    break;
+                else
+                    cnt++;
+            }
+
+            //제시된 수는 수는 1이 cnt개 있는 2진수와 똑같은 결과 값을 갖는다
+            //정답은 1이 cnt개 있는 2진수 다음부터 몇번째 수가 2bit 차이나는지만 찾아서 더해주면 된다.             
+            answer[i] = numbers[i] + ansCalc(cnt);
+        }
+        
+        return answer;
+    }
+    
+    public long ansCalc(long cnt) {
+        //1이 cnt개 있는 2진수에서 몇을 더해야 2이하의 차이 bit가 나오는지 계산
+        //1을 더했을 땐 1이있고 0이 cnt개 있는 bit가 나옴. (ex 1111 +1 -> 10000)
+        //끝의 자리수가 증가하몄으므로 원래의 수와는 항상 1차이가 나게 되므로 0이 하나만 남을때 까지 변환해주면됨
+        //ex 01111 -> 10111 이는 곧 1이 cnt-1개 만큼있는 bit와 같다.
+        //따라서 1 + (11...11(cnt-1개)있는 수의 10진수)가 최초로 2비트 차이가 나는 증가값이 된다.
+
+        long ans = 0;
+        for(long i = 0 ; i < cnt - 1 ; i++) {
+            ans += (long)Math.pow(2, i);
+        }
+        return 1 + ans;
+    }
+}
+
+// 솔직히 다른사람 코드 가져옴...
+// 수학 너무 어렵다........
