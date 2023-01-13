@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] order) {
+        int answer = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        
+        int now = 1;
+    ex: for(int i = 0; i < order.length; i++) {
+            for(int j = now; j <= order.length; j++) {
+                if(order[i] == j) {
+                    answer++;
+                    now = j + 1;
+                    if(now > order.length) {
+                        now--;
+                    }
+                    break;
+                } else if(stack.peek() == order[i]) {
+                    answer++;
+                    stack.pop();
+                    break;
+                } else {
+                    if(order[i] < j) {
+                        break ex;
+                    }
+                    stack.push(j);
+                }
+            }
+        }
+        return answer;
+    }
+}
+
+// 메인벨트 : for문의 i
+// 보조벨트 : 스택
+
+// 단순 구현 문제
+// 어떤 순서로 로직을 구현할 것인지 먼저 정리를 다 하고 짜자
+// 그래야 안 헷갈림!!!
