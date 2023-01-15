@@ -1,0 +1,69 @@
+import java.util.*;
+
+class Solution {
+    static int R;
+    static int[] costs;
+    static int[][] map;
+    static boolean[] visited;
+    public int solution(int N, int[][] road, int K) {
+        int answer = 0;
+        R = K;
+        map = new int[N + 1][N + 1]; // 인덱스 0 사용X
+        costs = new int[N + 1];
+        visited = new boolean[N + 1];
+        
+        for(int i = 0; i < road.length; i++) {
+            for(int j = 0; j < road[i].length; j++) {
+                if(map[road[i][0]][road[i][1]] == 0) {
+                    map[road[i][0]][road[i][1]] = road[i][2];
+                    map[road[i][1]][road[i][0]] = road[i][2];
+                } else {
+                    map[road[i][0]][road[i][1]] = Math.min(map[road[i][0]][road[i][1]], road[i][2]);
+                    map[road[i][1]][road[i][0]] = Math.min(map[road[i][1]][road[i][0]], road[i][2]);
+                }
+            }
+        }
+        
+        bfs();
+        for(int i = 1; i < visited.length; i++) {
+            
+            if(visited[i]) {
+                answer++;
+            } else {
+            }
+        }
+
+        return answer;
+    }
+    
+    public static void bfs() {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{1, R});
+        visited[1] = true;
+        
+        while(queue.size() != 0) {
+            int[] temp = queue.poll();
+            visited[temp[0]] = true;
+            if(costs[temp[0]] == 0) {
+                costs[temp[0]] = R - temp[1];
+            } else {
+                costs[temp[0]] = Math.min(costs[temp[0]], R - temp[1]);
+            }
+            // map 에서 연결된 노드 찾기
+            for(int i = 1; i < visited.length; i++) {
+                // temp[0][i] -> i 까지 길이 있는가? &&  방문할 수 있는 시간인가? && 비용이 0이거나(=아직방문X) 기존 비용보다 적게 드는가? 
+                if(map[temp[0]][i] != 0 && temp[1] - map[temp[0]][i] >= 0 && (costs[i] == 0 || R - temp[1] - map[temp[0]][i] < costs[i])) {
+                    queue.offer(new int[]{i, temp[1] - map[temp[0]][i]});
+                    continue;
+                }
+            }
+        }
+        return;
+    }
+}
+
+// 무조건 1번에서 몇개 갈 수 있냐를 return
+// 양방향그래프
+
+// 그래프 + BFS (로 풀긴 했는데 다익스트라 쓰면 된다고 한다...)
+// 그래프 공부를 성실히 합시다!!!!
