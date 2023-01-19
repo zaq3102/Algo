@@ -1,0 +1,48 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
+        int answer = 0;
+        Queue<int[]> bridgeQ = new LinkedList<>();
+        Queue<int[]> waitQ = new LinkedList<>();
+        for(int i = 0; i < truck_weights.length; i++) {
+            waitQ.offer(new int[]{truck_weights[i], 0}); // 무게, 위치
+        }
+        
+        int sum = 0;
+        while(true) {
+            if(waitQ.isEmpty() && bridgeQ.isEmpty()) {
+                break;
+            }
+            
+            // 다리에 있는 트럭들 한칸씩 옮기기
+            for(int i = 0, s = bridgeQ.size(); i < s; i++) {
+                int[] temp = bridgeQ.poll();
+                
+                if(temp[1] + 1 > bridge_length) {
+                    // 나갈 트럭이라면
+                    sum -= temp[0];
+                } else {
+                    bridgeQ.offer(new int[]{temp[0], temp[1] + 1});
+                }
+            } // end of for
+            
+            // 새 트럭 넣기
+            if(!waitQ.isEmpty()) {
+                int[] temp = waitQ.peek();
+                if(temp[0] + sum <= weight) {
+                    // 넣어도 되는 무게라면
+                    bridgeQ.offer(new int[]{temp[0], temp[1] + 1});
+                    sum += temp[0];
+                    waitQ.poll();
+                }
+            }
+            answer++;
+        } // end of while
+        
+        return answer;
+    }
+}
+
+// 백준 트럭 문제와 유사(Silver 1)
+// 이 정도는 가뿐!
