@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public String solution(int[] numbers) {
+        String answer = "";
+        String[] answerArr = new String[numbers.length];
+        
+        for(int i = 0; i < numbers.length; i++) {
+            answerArr[i] = String.valueOf(numbers[i]);
+        }
+        
+        Arrays.sort(answerArr, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                // System.out.println("o1 : " + o1 + ", o2 : " + o2);
+                // System.out.println("o1 + o2 : " + o1 + o2 + ", o2 + o1 : " + o2 + o1);
+                // System.out.println("result : " + (o2 + o1).compareTo(o1 + o2));
+                return (o2 + o1).compareTo(o1 + o2);
+            }
+        });
+        
+        if(answerArr[0].equals("0")) {
+            return "0";
+        } else {
+            for(int i = 0; i < answerArr.length; i++) {
+                answer += answerArr[i];
+            }
+        }
+        
+        return answer;
+    }
+}
+
+// comparator 재정의를 통한 정렬 방식의 풀이
+// 정렬 매커니즘에 대해 좀 더 깊이 공부해야 할 듯...!
+// 해피 설날~~
