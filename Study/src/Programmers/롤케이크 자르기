@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] topping) {
+        int answer = 0;
+        HashSet<Integer> left = new HashSet<>();
+        HashMap<Integer, Integer> right = new HashMap<>();
+        
+        left.add(topping[0]);
+        for(int i = 1; i < topping.length; i++) {
+            right.put(topping[i], right.getOrDefault(topping[i], 0) + 1); // 토핑 개수를 MAP에 담자
+        }
+        
+        for(int i = 1; i < topping.length; i++) {
+            left.add(topping[i]);
+            right.put(topping[i], right.get(topping[i]) - 1);
+            if(right.get(topping[i]) == 0) {
+                right.remove(topping[i]);
+            }
+            if(left.size() == right.size()) {
+                answer++;
+            }
+        }
+        return answer;
+    }
+}
+// HashSet과 HashMap을 활용한 단순 구현(효율적인지는 잘...)
+// 쫌만 어려워지면 못푸는 ,,, 화이팅...!
+
+// PQ에 배열을 넣을 땐 comparator를 선언해줘야 한다!
