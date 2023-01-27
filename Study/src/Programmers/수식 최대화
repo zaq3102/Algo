@@ -1,0 +1,106 @@
+import java.util.*;
+
+class Solution {
+    static char[][] order = {{'+', '-', '*'},
+                            {'+', '*', '-'},
+                            {'-', '+', '*'},
+                            {'-', '*', '+'},
+                            {'*', '+', '-'},
+                            {'*', '-', '+'}};
+    // static char[] susikArr = {'+', '-', '*'};
+    public long solution(String expression) {
+        long answer = 0;
+        Deque<Long> numbers = new LinkedList<>();
+        Deque<Character> susiks = new LinkedList<>();
+        
+        StringTokenizer st = new StringTokenizer(expression, "+|-|*");
+        while(st.hasMoreTokens()) {
+            numbers.offer(Long.parseLong(st.nextToken()));
+        } // 숫자 큐에 넣기
+        
+        for(int i = 0; i < expression.length(); i++) {
+            if(expression.charAt(i) >= '0' && expression.charAt(i) <= '9') {
+                continue;
+            }
+            susiks.offer(expression.charAt(i));
+        } // 연산자 큐에 넣기
+        
+        for(int i = 0; i < order.length; i++) {
+            Queue<Long> Tnumbers = new LinkedList<>();
+            Queue<Character> Tsusiks = new LinkedList<>();
+            long tt = numbers.poll();
+            Tnumbers.offer(tt);
+            numbers.offer(tt);
+            for(int t = 0, s = susiks.size(); t < s; t++) {
+                long tempI = numbers.poll();
+                char tempC = susiks.poll();
+                Tsusiks.offer(tempC);
+                susiks.offer(tempC);
+                Tnumbers.offer(tempI);
+                numbers.offer(tempI);
+            } // 큐 복사
+            
+            // System.out.println("START");
+            long temp = Tnumbers.poll();
+            for(int j = 0; j < 3; j++) {
+                // order[i][j]
+                // System.out.println(Tnumbers.size() + ", " + Tsusiks.size());
+                for(int k = 0, s = Tsusiks.size(); k < s; k++) {
+                    if(Tsusiks.peek() == order[i][j]) {
+                        // 우선순위에 해당하는 연산자라면?
+                        temp = calc(temp, Tnumbers.poll(), Tsusiks.poll());
+                        if(k == s - 1) {
+                            Tnumbers.offer(temp);
+                            // Tsusiks.offer(Tsusiks.poll());
+                            temp = Tnumbers.poll();
+                        }
+                    } else {
+                        // 우선순위가 아닌 연산자라면?
+                        Tnumbers.offer(temp);
+                        Tsusiks.offer(Tsusiks.poll());
+                        temp = Tnumbers.poll();
+                        if(k == s - 1) {
+                            Tnumbers.offer(temp);
+                            temp = Tnumbers.poll();
+                        }
+                    }
+                }
+            } // 세번째 연산자까지 연산 종료
+            // System.out.println("temp : " + temp + ", " + Tnumbers.size() + Tsusiks.size());
+            // Math.abs(temp);
+            answer = Math.abs(temp) > answer ? Math.abs(temp) : answer;
+            
+        } // end of outFor
+        
+        return answer;
+    }
+    
+    public static long calc(long a, long b, char c) {
+        long result = 0;
+        switch(c){
+            case '+' :
+                result = a + b;
+                // System.out.println(a + " + " + b + " = " + result);
+                break;
+            case '-' :
+                result = a - b;
+                // System.out.println(a + " - " + b + " = " + result);
+                break;
+            case '*' :
+                result = a * b;
+                // System.out.println(a + " * " + b + " = " + result);
+                break;
+        }
+        return result;
+    } // end of calc
+}
+
+// 빡빡빡구현!
+// int 형과 long 형을 적절한 위치에 사용하자!!
+// 이렇게 말고 다른 방식으로도 풀기 가능할듯...
+// 왠만하면 외부 함수로 빼서 사용하는 방식을 쓰자...
+
+// 연산자 우선순위 정하는 로직 필요 -> 6가지
+// 우선순위 정한 다음에는? -> 수식을 푼다
+// 1. 처음부터 그냥 돌려서 계산
+//    우선순위 0번꺼 한판 돌리고 1번꺼 한판 돌리고 ...
