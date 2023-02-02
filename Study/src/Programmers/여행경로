@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Solution {
+    static PriorityQueue<String> pq = new PriorityQueue<>();
+    static boolean[] visited;
+    public String[] solution(String[][] tickets) {
+        visited = new boolean[tickets.length]; // 사용한 티켓 체크용
+        DFS(tickets, "ICN", 0, "ICN"); // 전체표, 출발도시, 카운트, 경로
+        String[] answer = pq.peek().split(",");
+        return answer;
+    }
+    
+    public static void DFS(String[][] tickets, String current, int cnt, String path){
+        if(cnt == tickets.length) {
+            pq.add(path);
+            return;
+        }
+        
+        for(int i = 0; i < tickets.length; i++) {
+            if(!visited[i] && current.equals(tickets[i][0])) { // 안쓴티켓 & 출발지맞음
+                visited[i] = true;
+                DFS(tickets, tickets[i][1], cnt + 1, path + "," + tickets[i][1]);
+                visited[i] = false;
+            }
+        }
+        
+    }
+}
+
+// DFS + PQ
+// PQ를 쓰면? -> 사전순으로 정렬이 된다!
+// 방문체크를 했다 푸는 이유는? -> 모든 경우의 수를 가늠해야 하므로!
+// 같은 노선의 표가 있을 수 있다!
