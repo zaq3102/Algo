@@ -1,0 +1,72 @@
+import java.util.*;
+
+class Solution {
+    static int[] choosen;
+    static boolean[] selected;
+    static HashSet<Integer> storage;
+    static String arrN;
+    public int solution(String numbers) {
+        int answer = 0;
+        arrN = numbers;
+        storage = new HashSet<>();
+        selected = new boolean[numbers.length()];
+        for(int i = 1; i <= numbers.length(); i++) {
+            choosen = new int[i];
+            permu(0, i);
+        }
+        
+        for(int key : storage) {
+            if(key < 2) {
+                continue;
+            }
+            if(key == 2 || key == 3) {
+                answer++;
+                continue;
+            }
+            
+            for(int i = 2; i <= key / 2; i++) {
+                if(key % i == 0) {
+                    // 소수가 아니라면?
+                    break;
+                }
+                
+                if(i == key / 2) {
+                    answer++;    
+                }
+            } // end of inFor
+        } // end of setFor
+        
+        return answer;
+    }
+    
+    public static void permu(int cnt, int R) {
+        if(cnt == R) {
+            String temp = "";
+            for(int i = 0; i < choosen.length; i++) {
+                temp += choosen[i];
+            }
+            
+            int sum = Integer.parseInt(temp);
+            if(!storage.contains(sum)) {
+                storage.add(sum);
+            }
+            return;
+        }
+        
+        for(int i = 0; i < arrN.length(); i++) {
+            if(selected[i]) {
+                continue;
+            }
+            selected[i] = true;
+            choosen[cnt] = arrN.charAt(i) - '0';
+            
+            permu(cnt + 1, R);
+            selected[i] = false;
+        } // end of for
+        
+    }
+}
+
+// 순열 + 소수판독
+// numbers 길이만큼의 순열 작업 후 해당 숫자에 대해 소수 판독
+// 에라토스테네스의 체 사용법을 익히자! (= 제곱수 이하만 반복문 돌리는 매커니즘)

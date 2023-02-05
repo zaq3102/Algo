@@ -1,0 +1,31 @@
+import java.util.*;
+
+class Solution {
+    
+    public long solution(int n) {
+        long answer = 0;
+        long[] memo = new long[2001];
+        memo[1] = 1L;
+        memo[2] = 2L;
+        
+        for(int i = 3; i <= n; i++) {
+            if(memo[i - 1] + memo[i - 2] > 1234567) {
+                memo[i] = (memo[i - 1] + memo[i - 2]) % 1234567;
+            } else {
+                memo[i] = memo[i - 1] + memo[i - 2];
+            }
+        }
+        
+        return memo[n];
+    }
+}
+
+// static 변수에 누적해서 계산하는 경우에는
+// static int a = 0; 처럼 먼저 전역변수로 초기화를 시켜준 후 써야한다!
+// main 내에서 a = 0; 과 같이 사용X !!
+
+// 1 -> 1 = 1
+// 2 -> 11 2 = 2
+// 3 -> 111 12 21 = 3
+// 4 -> 1111 211 121 112 22 = 5
+// n -> n-1 + n-2 = 피보나치수열

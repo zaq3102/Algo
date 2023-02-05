@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] elements) {
+        int N = elements.length;
+        Set<Integer> set = new HashSet<>();
+        
+        for(int i = 1; i <= N; i++) {
+            // 수열을 이루는 요소의 수 = i
+            for(int j = 0; j < N; j++) {
+                // 시작 인덱스
+                int sum = 0;
+                for(int k = j; k < j + i; k++) {
+                    int idx = k;
+                    if(idx > N - 1) {
+                        idx -= N;
+                    }
+                    sum += elements[idx];
+                }
+                set.add(sum);
+            }
+        } // end of outFor
+        
+        return set.size();
+    }
+}
+
+// 조합을 만들어서 인덱스가 연속된 것만 계산 ...?
+// -> 효율을 안따졌을 경우 통과!
+// 대부분 3중 반복문으로 풀었다더라,,,

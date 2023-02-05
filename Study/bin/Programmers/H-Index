@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] citations) {
+        int answer = 0;
+        Arrays.sort(citations);
+        for(int i = 1; i <= citations[citations.length - 1]; i++) {
+            int sum = 0;
+            for(int j = citations.length - 1; j >= 0; j--) {
+                if(citations[j] >= i) {
+                    // j번째 논문이 i회 이상 인용되었다면?
+                    sum++;
+                } else {
+                    break;
+                }
+                
+                if(sum >= i) {
+                    answer = i;
+                    break;
+                }
+            } // end of innerFor
+            answer = sum > answer ? sum : answer;
+        } // end of outFor
+        
+        return answer;
+    }
+}
+
+// 정렬해서 개수 세주면 끝
+// 수학적 사고력을 기르자!!

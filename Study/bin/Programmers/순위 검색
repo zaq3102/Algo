@@ -1,0 +1,94 @@
+import java.util.*;
+
+class Solution {
+    
+    static HashMap<String, ArrayList<Integer>> scoreMap;
+    static int score;
+    static String[] infoArr;
+    static String[] tempArr;
+    
+    public int[] solution(String[] info, String[] query) {
+        scoreMap = new HashMap<>();
+        
+        for(String detail : info) {
+            infoArr = new String[4];
+            tempArr = detail.split(" ");
+            score = Integer.parseInt(tempArr[4]);
+            dfs(0);
+        }
+        
+        for(String key : scoreMap.keySet()) {
+            // 각 경우마다 갖고 있는 점수 배열을 정렬
+            Collections.sort(scoreMap.get(key));
+        }
+        
+        int idx = 0;
+        int[] answer = new int[query.length];
+        for(String detail : query) {
+            String[] temp = detail.split(" and | ");
+            String key = temp[0] + temp[1] + temp[2] + temp[3];
+            
+            if(!scoreMap.containsKey(key)) {
+                answer[idx++] = 0;
+            } else {
+                ArrayList<Integer> arr = scoreMap.get(key);
+                answer[idx++] = arr.size() - TP(arr, Integer.parseInt(temp[4]));
+            }
+        }
+        
+        return answer;
+    }
+    
+    public static void dfs(int lv) {
+        if(lv == 4) {
+            String Sresult = String.join("", infoArr);
+            if(!scoreMap.containsKey(Sresult)) {
+                // 처음 들어가는 케이스라면
+                scoreMap.put(Sresult, new ArrayList<>());
+            } 
+            scoreMap.get(Sresult).add(score);
+        } else {
+            infoArr[lv] = tempArr[lv];
+            dfs(lv + 1);
+            infoArr[lv] = "-";
+            dfs(lv + 1);
+        }
+    }
+    
+    public static int TP(ArrayList<Integer> list, int key) {
+        // key 값의 인덱스를 반환하는 함수
+        int left = 0, right = list.size() - 1;
+        
+        while(left <= right) {
+            int mid = (left + right) / 2;
+            
+            if(list.get(mid) < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return left;
+    }
+}
+
+// 지원자가 지원서에 입력한 4가지의 정보와 획득한 코딩테스트 점수를 하나의 문자열로 구성한 값의 배열 info
+// 개발팀이 궁금해하는 문의조건이 문자열 형태로 담긴 배열 query
+
+//언어는 cpp, java, python, - 중 하나입니다.
+//직군은 backend, frontend, - 중 하나입니다.
+//경력은 junior, senior, - 중 하나입니다.
+//소울푸드는 chicken, pizza, - 중 하나입니다.
+
+// 1. info 돌면서 Map에 각 경우의 수를 넣자
+//  -1. 넣을때 "-" 조건을 함께 섞어 넣자
+// 2. query 돌면서 각 조건마다의 key 값을 빼내자
+// 3. 빼낸 조건을 가지고 갯수를 구하자
+
+// POINT!!
+// str1.split(" and | ") -> 여러 문자를 기준으로 split 하고 싶다면 정규표현식 | 를 활용하자
+// split의 결과값은? -> String[] 이므로 바로 받아서 사용해도 가능하다!
+// map을 반복문을 통해서 순회하려면? -> map.keySet()을 통해 키값들을 뽑아낸 후 for문 표현식을 통해 돌리자
+// 투포인터는 left와 right 를 두고 그 중간값인 mid를 변경해가며 찾는 것!!
+//  ex) if(left < key) -> left = mid + 1; else -> right = mid - 1;

@@ -1,0 +1,26 @@
+import java.util.*;
+
+class Solution
+{
+    public int solution(int []A, int []B)
+    {
+        int answer = 0;
+
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        for(int i = 0; i < A.length; i++) {
+            answer += A[i] * B[B.length - 1 - i];
+        }
+        
+        return answer;
+    }
+}
+
+// 1 2 4
+// 4 4 5
+
+// 둘다 정렬해서
+// 0 * i
+// 1 * i-1
+// 과 같이 크로스 해서 곱연산 수행

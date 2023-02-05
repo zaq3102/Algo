@@ -1,0 +1,51 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        ArrayList<Integer> answerList = new ArrayList<>();
+        Queue<Integer> proQ = new LinkedList<>();
+        Queue<Integer> speedQ = new LinkedList<>();
+        
+        for(int i = 0; i < progresses.length; i++) {
+            proQ.offer(progresses[i]);
+            speedQ.offer(speeds[i]);
+        }
+        
+        int days = 0;
+        while(true) {
+            days++;
+            // 진행도 추가
+            int possible = 0;
+            boolean contin = true;
+            for(int i = 0, how = proQ.size(); i < how; i++) {
+                int pro = proQ.poll();
+                int spd = speedQ.poll();
+                
+                // 기능 배포 체크
+                if(pro + spd >= 100 && contin == true) {
+                    possible++;
+                } else {
+                    contin = false;
+                    proQ.offer(pro + spd);
+                    speedQ.offer(spd);
+                }
+            } // end of innerFor
+            if(possible != 0) {
+                answerList.add(possible);
+            }
+            
+            if(proQ.isEmpty()) {
+                break;
+            }
+        } // end of while
+        
+        int[] answer = new int[answerList.size()];
+        for(int i = 0; i < answer.length; i++) {
+            answer[i] = answerList.get(i);
+        }
+        return answer;
+    }
+}
+
+// 단순 큐 구현
+// 수학적으로 풀 수 있을지도...?

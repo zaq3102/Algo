@@ -1,0 +1,43 @@
+import java.util.*;
+
+class Solution
+{
+    public int solution(int n, int a, int b)
+    {
+        int answer = 1;
+
+        while(true) {
+            if(a == b) {
+                break;
+            } else if(a < b) {
+                if(a % 2 == 1 && a + 1 == b){
+                    break;
+                }
+            } else {
+                if(b % 2 == 1 && b + 1 == a){
+                    break;
+                }
+            }
+            
+            if(a % 2 == 1) {
+                a  = (a / 2) + 1;
+            } else {
+                a /= 2;
+            }
+            
+            if(b % 2 == 1) {
+                b  = (b / 2) + 1;
+            } else {
+                b /= 2;
+            }
+            
+            answer++;
+        } // end of while
+
+        return answer;
+    }
+}
+
+// 4 7 - 2 3+1 - 1 2
+// 4 5 - 2 2+1 - 1 2
+// 수학적 사고력을 길러보자!

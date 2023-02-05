@@ -1,0 +1,60 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] operations) {
+        int[] answer = new int[2];
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i = 0; i < operations.length; i++) {
+            if(operations[i].charAt(0) == 'I') {
+                // 삽입 명령
+                // System.out.println("INPUT : " + operations[i].substring(2, operations[i].length()));
+                pq.offer(Integer.parseInt(operations[i].substring(2, operations[i].length())));
+            } else {
+                // 삭제 명령
+                if(pq.size() < 2) {
+                    if(pq.size() == 1) {
+                        pq.poll();
+                    }
+                    continue;
+                }
+                if(operations[i].charAt(2) == '1') {
+                    // 최댓값 삭제
+                    
+                    for(int j = 0, s = pq.size() - 1; j < s; j++) {
+                        stack.push(pq.poll());
+                    }
+                    // System.out.println("REMOVE MAX : " + pq.poll());
+                    pq.poll();
+                    for(int j = 0, s = stack.size(); j < s; j++) {
+                        pq.offer(stack.pop());
+                    }
+                } else {
+                    // 최솟값 삭제
+                    // System.out.println("REMOVE MIN : " + pq.poll());
+                    pq.poll();
+                }
+            }
+        } // end of outFor
+        
+        if(pq.size() == 0) {
+            answer[0] = 0;
+            answer[1] = 0;
+        } else if (pq.size() == 1) {
+            answer[0] = pq.peek();
+            answer[1] = pq.peek();
+        } else {
+            answer[1] = pq.poll();
+            while(pq.size() > 1) {
+                pq.poll();
+            }
+            answer[0] = pq.poll();
+        }
+        
+        return answer;
+    }
+}
+
+// 단순 큐 응용 구현
+// 이정도 Lv3 라면 풀 수 있다!!

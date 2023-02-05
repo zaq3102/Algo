@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Solution {
+    static int result = Integer.MAX_VALUE;
+    public int solution(String begin, String target, String[] words) {
+        BFS(begin, target, words);
+        if(result == Integer.MAX_VALUE) {
+            return 0;
+        }
+        return result;
+    }
+    
+    public static void BFS(String begin, String target, String[] words) {
+        Queue<String[]> queue = new LinkedList<>();
+        boolean[] visited = new boolean[words.length];
+        queue.offer(new String[]{begin, ""});
+        
+        while(queue.size() != 0) {
+            String[] temp = queue.poll();
+            if(target.equals(temp[0])) {
+                result = result < temp[1].length() ? result : temp[1].length();
+                continue;
+            }
+            for(int i = 0; i < words.length; i++) {
+                if(visited[i]) {
+                    continue;
+                }
+                int cnt = 0;
+                for(int j = 0; j < words[i].length(); j++) {
+                    if(temp[0].charAt(j) != words[i].charAt(j)) {
+                        cnt++;
+                    }
+                } // 다른 철자가 몇개인지 세는 for
+                if(cnt == 1) {
+                    visited[i] = true;
+                    queue.offer(new String[]{words[i], temp[1] + "."});
+                }
+            }
+        } // end of while
+    }
+}
+
+// 그래프 아닌 BFS
+// 이런 유형에 익숙해져야 한다!!

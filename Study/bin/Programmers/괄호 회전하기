@@ -1,0 +1,55 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String s) {
+        int answer = 0;
+
+        for(int i = 0; i < s.length(); i++) {
+            answer += check(s) ? 1 : 0;
+            s = s.substring(1, s.length()) + s.substring(0, 1);
+        }
+        
+        return answer;
+    }
+    
+    public static boolean check(String s) {
+        // 해당 String이 유효한가 아닌가 체크
+        Stack<Character> stack = new Stack<>();
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(' || s.charAt(i) == '{' || s.charAt(i) == '[') {
+                stack.push(s.charAt(i));
+            } else {
+                if(stack.size() == 0) {
+                    return false;
+                } else {
+                    char c = stack.pop();
+                    if(c == '(' && s.charAt(i) == ')') {
+                        continue;
+                    } else if(c == '{' && s.charAt(i) == '}') {
+                        continue;
+                    } else if(c == '[' && s.charAt(i) == ']') {
+                        continue;
+                    } else {
+                        return false;
+                    }
+                } // end of small else
+            } // end of big else
+        } // end of for
+        if(stack.size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } // end of check
+    
+}
+
+// 애초에 연속해서 O가 될 수 없는 조건
+// -> O 조건으로부터 하나는 무조건 건너뛰고 봐야됨
+// -> 이게 불변의 진리다!!!!
+// -> 즉 O 조건 만족할 때 까지 s를 회전시키고 될 때의 i값 부터 s의 길이까지 차이를 2로 나눈 값 만큼의 answer++
+// -> 이딴거 필요없고 그냥 반복해도 됨
+
+// 괄호 판별은 맞으면 pop해서 버려버리면 그만이다!!
+// 어렵게 생각 말고 케이스 하나하나씩 했다면 금방 풀 수 있을 것!!

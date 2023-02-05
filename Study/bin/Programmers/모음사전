@@ -1,0 +1,38 @@
+import java.util.*;
+class Solution {
+   final Map<String, Integer> map = getMap();
+
+    public int solution(String word) {
+        Integer index = map.get(word);
+
+        return index;
+    }
+
+    private Map<String, Integer> getMap() {
+        String[] arr = {"A", "E", "I", "O", "U"};
+        TreeMap<String, Integer> map = new TreeMap<>();
+        boolean[] booleans = new boolean[5];
+        inputMap(0, booleans, map, arr, "");
+        int index = 1;
+        for (String key : map.keySet()) {
+            map.put(key, index);
+            index++;
+        }
+        return map;
+    }
+
+    private void inputMap(int depth, boolean[] booleans, TreeMap<String, Integer> map, String[] arr, String str) {
+        if (depth == booleans.length) {
+            return;
+        }
+        for (int i = 0; i < booleans.length; i++) {
+            map.put(str + arr[i], 0);
+            inputMap(depth + 1, booleans, map, arr, str + arr[i]);
+        }
+    }
+}
+
+// DFS...?
+// 트리맵은 자동 정렬된다 (그것도 사전순으로!!)
+// 따라서 트리맵에 다 넣어주고 앞에서부터 하나씩 빼서 인덱스값과 함께 넣어준다!
+// 그리고 word를 key로 하는 value를 찾아주면 끝!

@@ -1,0 +1,31 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        boolean isSpace = true;
+        s = s.toLowerCase();
+        
+        for(int i = 0; i < s.length(); i++) {
+            // 공백 다음 숫자가 아닌 알파벳이라면 대문자로 바꿔서 넣는다
+            if(isSpace && (s.charAt(i) >= 'a' && s.charAt(i) <= 'z')) {
+                isSpace = false;
+                s = s.substring(0, i) + (s.charAt(i) + "").toUpperCase() + s.substring(i + 1, s.length());
+            }
+            
+            if(s.charAt(i) == ' ') {
+                // 공백이라면
+                isSpace = true;
+                continue;
+            } else {
+                isSpace = false;
+            }
+        }
+        
+        answer = s;
+        return answer;
+    }
+}
+
+// 공백이 2개 이상인 문자열의 경우 StringTokenizer로 해곃할 수 없다
+// 이럴땐 그냥 인덱스를 활용하자!!

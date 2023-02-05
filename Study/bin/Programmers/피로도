@@ -1,0 +1,48 @@
+import java.util.*;
+
+class Solution {
+    static int R, max;
+    static int[] selected;
+    static int[][] DGS;
+    static boolean[] visited;
+    
+    public int solution(int k, int[][] dungeons) {
+        R = dungeons.length;
+        max = -1;
+        DGS = dungeons;
+        selected = new int[dungeons.length];
+        visited = new boolean[dungeons.length];
+        
+        permu(0,k);
+        
+        return max;
+    }
+    
+    public static void permu(int cnt, int k) {
+        if(cnt == R) {
+            int sum = 0;
+            for(int t = 0; t < R; t++) {
+                if(k >= DGS[selected[t]][0]) {
+                    sum++;
+                    k -= DGS[selected[t]][1];
+                } else {
+                    break;
+                }
+            }
+            max = sum > max ? sum : max;
+            return;
+        }
+        for(int i = 0; i < R; i++) {
+            if(visited[i]) {
+                continue;
+            }
+            selected[cnt] = i;
+            visited[i] = true;
+            permu(cnt + 1, k);
+            visited[i] = false;
+        }
+    }
+    
+}
+
+// 순열을 까먹지 말자!! 

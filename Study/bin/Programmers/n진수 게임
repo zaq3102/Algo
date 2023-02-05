@@ -1,0 +1,28 @@
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int t, int m, int p) {
+        String answer = "";
+        String total = "0";
+            
+        int now = 1;
+        while(total.length() < t * m) {
+            total += Integer.toString(now++ , n);
+        }
+        
+        total = total.toUpperCase();
+        
+        for(int i = p - 1; i < total.length(); i += m) {
+            answer += total.charAt(i);
+            if(answer.length() == t) {
+                break;
+            }
+        }
+        
+        return answer;
+    }
+}
+
+// 진법 n, 미리 구할 숫자의 갯수 t, 게임에 참가하는 인원 m, 튜브의 순서 p
+// Integer.toString(숫자, 진수) 를 쓰면 매우 간단히 풀리는 문제
+// 제발 정신차려!!!!!!!!!!!!!!!!!!!!!

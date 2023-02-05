@@ -1,0 +1,24 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String s) {
+        int[] answer = new int[s.length()];
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>(); 
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(!map.containsKey(s.charAt(i))) {
+                // 처음 들어가는 값이라면
+                answer[i] = -1;
+                map.put(s.charAt(i), i);
+            } else {
+                // 이미 있는 글자라면
+                answer[i] = i - map.get(s.charAt(i));
+                map.put(s.charAt(i), i);
+            }
+        }
+        
+        return answer;
+    }
+}
+
+// Map 생성은 new HashMap<>();

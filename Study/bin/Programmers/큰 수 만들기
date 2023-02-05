@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String number, int k) {
+        String answer = "";
+        StringBuilder sb = new StringBuilder();
+        int max = 0;
+        int index = 0;
+        
+        for(int i = 0; i < number.length() - k; i++) {
+            // 출력해야할 길이만큼 반복
+            max = 0;
+            for(int j = index; j <= k + i; j++) {
+                // 가장 큰 앞자리를 탐색한 다음
+                // 이후 출력 길이가 만족할때까지 반복
+                if(max < number.charAt(j) - '0') {
+                    max = number.charAt(j) - '0';
+                    index = j + 1;
+                }
+            }
+            sb.append(max);
+        }
+        
+        answer = sb.toString();
+        return answer;
+    }
+}
+
+// 수학적 사고력을 기르자
+// 너무어렵네

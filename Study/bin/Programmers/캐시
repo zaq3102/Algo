@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int cacheSize, String[] cities) {
+        int answer = 0;
+        LinkedList<String> arr = new LinkedList<>();
+        
+        if(cacheSize == 0) {
+            return cities.length * 5;
+        }
+        
+        for(int i = 0; i < cities.length; i++) {
+            String city = cities[i].toUpperCase();
+            
+            if(arr.remove(city)) {
+                // 캐시 내 존재하는 값이라면
+                answer += 1;
+                arr.add(city);
+            } else {
+                // 캐시에 없는 값이라면
+                answer += 5;
+                if(cacheSize <= arr.size()) {
+                    arr.remove(0);
+                }
+                arr.add(city);
+            }
+        }
+        return answer;
+    }
+}
+
+// cache miss = 캐시 내 없는 값이 들어오면 오버라이딩 시켜줄 때 드는 시간
+// cache hit = 캐시 내 존재하는 값이 들어왔을 때 반환 시간
+// LinkedList를 쓰면 매우 간단히 구현된다!!!!!
+// remove 해서 true / false 값으로 분류해서 쓰면
+// LinkedList 이므로 일일이 이동하고 난리칠 필요 없이 add 하나로 끝남
+
+// LinkedList 에서 remove(숫자) -> 해당인덱스값제거 후 앞뒤값을 이어준다
+// remove(자료형) -> 해당 값에 해당하는 요소를 제거 후 앞뒤값을 이어준다

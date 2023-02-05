@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    boolean solution(String s) {
+        boolean answer = true;
+
+        Stack<Character> stack = new Stack<>();
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(') {
+                stack.push(s.charAt(i));
+            } else {
+                if(stack.isEmpty() || stack.peek() == ')') {
+                    answer = false;
+                    break;
+                } else {
+                    stack.pop();
+                }
+            } // end of else
+        } // end of for
+        
+        if(!stack.isEmpty()) {
+            answer = false;
+        }
+
+        return answer;
+    }
+}
+
+// 기초적인 괄호문제
+// 조건문 두 번 돌면 효율성에서 터진다!
+//  -> stack.isEmpty() || stack.peek() == ')' 요렇게 하나로 뭉쳐주자

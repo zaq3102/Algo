@@ -1,0 +1,22 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n) {
+        long[] memo = new long[n + 1];
+        memo[0] = 0L;
+        memo[1] = 1L;
+        
+        for(int i = 2; i <= n; i++) {
+            memo[i] = (memo[i-1] + memo[i-2]) % 1234567;
+        }
+        
+        int answer = (int)(memo[n] % 1234567L);
+        // long answer = memo[n] % 1234567;
+        
+        return answer;
+    }
+}
+
+// 피보나치 수를 모두 완성한 다음 %1234567을 해주면? -> 틀림
+// 피보나치 수를 만드는 과정에서 오버플로우로 인해 값이 변경되기 때문!!
+// 그렇다면? => 피보나치 수 만드는 과정에 아예 %1234567을 적용시켜버리자!!!
