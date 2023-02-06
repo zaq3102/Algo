@@ -1,0 +1,23 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, long left, long right) {
+        int area = (int)(right - (long)left + 1L);
+        int[] answer = new int[area];
+        
+        // left와 right를 활용한 좌표값 계산
+        // left / n = left행값 & right / n = right행값
+        // left - (left행값 * n) = left열값
+        
+        int idx = 0;
+        long LN = (long)n;
+        for(long i = left; i <= right; i++) {
+            long maxV = (i / LN) > (i - ((i / LN) * LN)) ? (i / LN) : (i - ((i / LN) * LN));
+            answer[idx++] = (int)maxV + 1;
+        }
+        
+        return answer;
+    }
+}
+
+// 수학적 사고력을 기르자!!!!
