@@ -1,0 +1,68 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] files) {
+        // String[] answer = new String[files.length];
+        Arrays.sort(files, new Comparator<String>() {
+            // 이 안에서 리턴값을 통해 비교 연산을 해결한다
+            @Override
+            public int compare(String s1, String s2) {
+                String[] file1 = calc(s1);
+                String[] file2 = calc(s2);
+                
+                int headV = file1[0].compareTo(file2[0]);
+                
+                if(headV == 0) {
+                    // 헤드가 같다
+                    int n1 = Integer.parseInt(file1[1]);
+                    int n2 = Integer.parseInt(file2[1]);
+                    // n1 - n2 가 양수 -> n1이 더큼 - > 정렬 우선 대상!
+                    return n1 - n2;
+                } else {
+                    return headV;
+                }
+                
+            } // end of compare
+            
+            public String[] calc(String str) {
+                String head = "";
+                String number = "";
+                
+                int numIdx = -1;
+                for(int i = 0; i < str.length(); i++) {
+                    if(str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                        // 숫자라면
+                        numIdx = i;
+                        break;
+                    }
+                    head += str.charAt(i);
+                }
+                int numE = -1;
+                int idx = 0;
+                for(int i = numIdx; i < str.length(); i++) {
+                    idx++;
+                    if(idx > 5 || str.charAt(i) < '0' || str.charAt(i) > '9') {
+                        // 숫자가 아니라면 or 5자리 초과라면
+                        numE = i;
+                        break;
+                    }
+                    number += str.charAt(i);
+                }
+                String tail = "";
+                if(numE != -1) {
+                    tail = str.substring(numE, str.length());
+                }
+                
+                String[] file = {head.toLowerCase(), number, tail};
+                return file;
+            } // end of calc 
+        });
+        // comparator를 통해 files를 직접 재정렬 해서 return!
+        return files;
+    }
+}
+
+// comparator를 재정의해서 풀어야 하는 문제!
+// 숫자가 나오기 직전까지가 HEAD
+// 숫자가 끝나는 지점까지가 NUMBER
+// 나머지가 TAIL
