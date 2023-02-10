@@ -1,0 +1,21 @@
+-- 코드를 입력하세요
+SELECT 
+        ORDER_ID, 
+        PRODUCT_ID, 
+        DATE_FORMAT(OUT_DATE, '%Y-%m-%d') AS OUT_DATE,
+        CASE
+                WHEN (OUT_DATE <= '2022-05-01') THEN '출고완료'
+                WHEN (OUT_DATE > '2022-05-01') THEN '출고대기'
+        ELSE '출고미정'
+        END AS "출고여부"
+FROM FOOD_ORDER
+ORDER BY ORDER_ID;
+
+-- 날짜형식 : DATE_FORMAT(날짜정보, '%Y-%d-%m') 
+-- 대문자 M : 영어로 월, 일 표시
+-- 소문자 m : 숫자로 월, 일 표시
+
+-- CASE
+--      WHEN (조건) THEN '표시할내용'
+-- ELSE '표시할내용'
+-- END AS '속성이름'
