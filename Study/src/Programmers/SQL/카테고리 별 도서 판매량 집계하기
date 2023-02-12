@@ -1,0 +1,10 @@
+-- 코드를 입력하세요
+
+SELECT B.CATEGORY, SUM(BS.sales) AS TOTAL_SALES
+FROM BOOK B, BOOK_SALES BS
+WHERE B.BOOK_ID = BS.BOOK_ID AND BS.SALES_DATE >= '2022-01-01' AND BS.SALES_DATE <= '2022-01-31'
+GROUP BY B.category
+ORDER BY B.category;
+
+-- 날짜 이후 이전 연산은 부등호 + 'YYYY-MM-DD' 형식으로 가능
+-- SQL 연습을 더하자!
